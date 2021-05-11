@@ -1,0 +1,3 @@
+[submodule "thirdparty/libbf"]
+	path = thirdparty/libbf
+	url = https://github.com/mavam/libbf
