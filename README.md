@@ -1,3 +1,11 @@
+# What is this repository ?
+This repository contains a slightly modified version of https://github.com/Kingsford-Group/kbf.
+Indeed, the dependecies of kbf have changed a bit and thus it not not so easy to use anymore.
+Moreover, it it seemed to lack a way to index a fasta/fastq file and compare it to another file, making it hard to compare other tools to it.
+
+================================================
+
+
 #k-mer Bloom filters
 ------------------------------
 
