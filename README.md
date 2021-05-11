@@ -26,12 +26,15 @@ Pellow, Filippova, and Kingsford. "Improving Bloom filter performance on sequenc
 
 Boost: http://www.boost.org/doc/libs/1_59_0/more/getting_started/unix-variants.html
 
-libbf: https://github.com/mavam/libbf/ 
-
 #### Compilation
 
 ```
-g++ -std=c++11 -O3 -o kbf main.cpp -I [libbf include path] -I [Boost include path] -L [libbf lib path] -L [Boost lib path] -lbf
+git clone --recursive https://github.com/lrobidou/kbf
+cd thirdparty/libbf
+./configure
+make
+cd -
+g++ -std=c++11 -O3 -o kbf cpp-src/main.cpp -Ithirdparty/libbf -Lthrirparty/bf/build/lib -lbf -Wl,-Rthrirparty/bf/build/lib
 ```
 
 #### *k*BF Variants
