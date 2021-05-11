@@ -99,10 +99,10 @@ int main(int argc, char* argv[]) {
     cerr << "Starting Sequence Bloom Filter" << endl;
     cerr << "==============================" << endl;
 
-    if (argc < 3) {
+    if (argc < 4) {
         cerr << "\tMissing required arguments." << endl;
         cerr << "\tUsage:" << endl;
-        cerr << "\tkbf <reads.fa> <k> [outfile prefix = 'test'] [# queries = 1M] [use all TP = 'false']" << endl;
+        cerr << "\tkbf <reads.fa> <k> <query.fa> [outfile prefix = 'test'] [# queries = 1M] [use all TP = 'false']" << endl;
         exit(1);
     }
 
@@ -110,15 +110,19 @@ int main(int argc, char* argv[]) {
     int K = stoi(argv[2]);
     unsigned long query_set_size = 1000000;
     string prefix = "test";
+    string queryFilename = "";
     bool TP = false;
     if (argc > 3) {
-        prefix = argv[3];
+        queryFilename = argv[3];
     }
     if (argc > 4) {
-        query_set_size = stoi(argv[4]);
+        prefix = argv[4];
     }
     if (argc > 5) {
-        string TP_string = argv[5];
+        query_set_size = stoi(argv[5]);
+    }
+    if (argc > 6) {
+        string TP_string = argv[6];
         if (TP_string.compare("true") == 0)
             TP = true;
         else
@@ -143,7 +147,8 @@ int main(int argc, char* argv[]) {
 
     // parse test reads and count the test kmers
     cerr << "Generating test kmers..." << endl;
-    vector<kmer_t> query_kmers = sample_kmers(read_kmers, query_set_size, K, TP);
+    // vector<kmer_t> query_kmers = sample_kmers(read_kmers, query_set_size, K, TP);
+    vector<kmer_t> query_kmers = getKmersVect(parseFasta(queryFilename), K);
 
     {
         // Test the classic bloom filter

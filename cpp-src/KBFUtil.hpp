@@ -194,6 +194,23 @@ unordered_set<kmer_t> getKmers(vector<string>& reads, const int K) {
     return kmers;
 }
 
+std::vector<kmer_t> getKmersVect(const vector<string>& reads, const int K) {
+    std::vector<kmer_t> kmers;
+    for (auto r : reads) {
+        if (r.size() < K) continue;
+        for (int i = 0; i < r.size() - K + 1; i++) {
+            // if (i+K > r.size()) {
+            //   cerr << i + K << endl;
+            // }
+            kmer_t kmer_bin = mer_string_to_binary(&r[i], K);
+            // kmers.insert( r.substr(i, K) );
+            kmers.push_back(kmer_bin);
+        }
+    }
+    // cerr << endl;
+    return kmers;
+}
+
 // take in reads and output both the kmer set and the edge kmer set
 // edge kmers are the kmers that are within extend_len of either end of a read
 void getKmersAndEdgeKmers(vector<string>& reads, const int K, const unsigned extend_len, unordered_set<kmer_t>& kmers, unordered_set<kmer_t>& edgeKmers) {
