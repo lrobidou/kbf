@@ -5,8 +5,7 @@
 #ifndef LIB_BASE_BLOOM_FILTER
 #define LIB_BASE_BLOOM_FILTER
 
-#include <bf.h>
-
+#include <bf/all.hpp>
 #include <string>
 
 using namespace std;

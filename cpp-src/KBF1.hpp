@@ -5,7 +5,7 @@
 #ifndef LIB_KBF_1
 #define LIB_KBF_1
 
-#include <bf.h>
+#include <bf/all.hpp>
 
 #include "BaseBloomFilter.hpp"
 #include "KBFUtil.hpp"
