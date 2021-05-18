@@ -10,7 +10,7 @@ if (NOT CMAKE_BUILD_TYPE)
     set(CMAKE_BUILD_TYPE Release)
 endif()
 
-set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS}")
+set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} --std=c++17")
 set(CMAKE_CXX_FLAGS_DEBUG "-g")
 set(CMAKE_CXX_FLAGS_RELEASE "-O3")
 
@@ -28,4 +28,4 @@ include_directories(SYSTEM thirdparty/libbf)
 add_subdirectory(thirdparty/libbf)
 
 add_executable(kbf src/main.cpp)
-target_link_libraries(kbf libbf)
+target_link_libraries(kbf libbf_static)
