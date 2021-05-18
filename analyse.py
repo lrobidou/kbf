@@ -29,7 +29,3 @@ def main():
     print(analyser("test_classic.txt"))
     print(analyser("test_kbf1.txt"))
     print(analyser("test_kbf2.txt"))
-
-
-if __name__ == "__main__":
-    main()
