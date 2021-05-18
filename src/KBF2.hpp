@@ -20,7 +20,7 @@ class KBF2 : public BaseBloomFilter {
    public:
     // constructor 1:
     // takes in kmer sets - kmers and potential edges (read edges)
-    KBF2(const int k, unordered_set<kmer_t>& kmer_set, unordered_set<kmer_t>& edge_set, const unsigned extend_len = 1, const size_t size_factor = 10) : BaseBloomFilter(k, kmer_set.size(), size_factor), extend_len(extend_len) {
+    KBF2(const int k, unordered_set<kmer_t>& kmer_set, unordered_set<kmer_t>& edge_set, const unsigned extend_len = 1, const size_t size_factor = 20) : BaseBloomFilter(k, kmer_set.size(), size_factor), extend_len(extend_len) {
         populate(kmer_set);
         getEdges(edge_set);
         cerr << "Edges: " << edge_kmers.size() << endl;

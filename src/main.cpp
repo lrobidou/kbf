@@ -152,7 +152,7 @@ int main(int argc, char* argv[]) {
         // Test the classic bloom filter
         cerr << "#### CLASSIC BLOOM FILTER ####" << endl;
         auto start = std::chrono::system_clock::now();
-        BaseBloomFilter b(K, read_kmers.size(), 10);
+        BaseBloomFilter b(K, read_kmers.size());
         b.populate(read_kmers);
         auto end = std::chrono::system_clock::now();
         std::chrono::duration<double> elapsed_seconds = end - start;
@@ -190,61 +190,61 @@ int main(int argc, char* argv[]) {
         queryKmers(query_kmers, read_kmers, kbf2, prefix + "_kbf2.txt");
     }
 
-    {
-        // Test sparse KBF - single sequence only
-        // Uncomment for single sequence input fasta
-        unordered_set<kmer_t> sparse_kmers;
-        unordered_set<kmer_t> edge_kmers;
-        cerr << "#### SPARSE KBF - SINGLE SEQUENCE ####" << endl;
-        auto start = std::chrono::system_clock::now();
-        getNthKmersAndEdgeKmers(reads, K, 1, sparse_kmers, edge_kmers);
-        auto end = std::chrono::system_clock::now();
-        std::chrono::duration<double> elapsed_seconds = end - start;
-        cerr << "Parse fasta, get kmers, and potential edge kmers for single sequence sparse KBF: " << elapsed_seconds.count() << " s" << endl;
-        cerr << "Potential edge kmers: " << edge_kmers.size() << endl;
-        start = std::chrono::system_clock::now();
-        KBFSparse kbfs(K, sparse_kmers, edge_kmers, 1, 10);
-        end = std::chrono::system_clock::now();
-        elapsed_seconds = end - start;
-        cerr << "Build and populate single sequence sparse KBF: " << elapsed_seconds.count() << " s" << endl;
-        queryKmers(query_kmers, read_kmers, kbfs, prefix + "_kbfs_singleseq.txt");
-    }
+    // {
+    //     // Test sparse KBF - single sequence only
+    //     // Uncomment for single sequence input fasta
+    //     unordered_set<kmer_t> sparse_kmers;
+    //     unordered_set<kmer_t> edge_kmers;
+    //     cerr << "#### SPARSE KBF - SINGLE SEQUENCE ####" << endl;
+    //     auto start = std::chrono::system_clock::now();
+    //     getNthKmersAndEdgeKmers(reads, K, 1, sparse_kmers, edge_kmers);
+    //     auto end = std::chrono::system_clock::now();
+    //     std::chrono::duration<double> elapsed_seconds = end - start;
+    //     cerr << "Parse fasta, get kmers, and potential edge kmers for single sequence sparse KBF: " << elapsed_seconds.count() << " s" << endl;
+    //     cerr << "Potential edge kmers: " << edge_kmers.size() << endl;
+    //     start = std::chrono::system_clock::now();
+    //     KBFSparse kbfs(K, sparse_kmers, edge_kmers, 1, 10);
+    //     end = std::chrono::system_clock::now();
+    //     elapsed_seconds = end - start;
+    //     cerr << "Build and populate single sequence sparse KBF: " << elapsed_seconds.count() << " s" << endl;
+    //     queryKmers(query_kmers, read_kmers, kbfs, prefix + "_kbfs_singleseq.txt");
+    // }
 
-    {
-        // Test sparse KBF - best fit kmers
-        unordered_set<kmer_t> sparse_kmers;
-        unordered_set<kmer_t> edge_kmers;
-        cerr << "#### SPARSE KBF - BEST FIT ####" << endl;
-        auto start = std::chrono::system_clock::now();
-        getBestFitKmersAndEdgeKmers(reads, K, 1, sparse_kmers, edge_kmers);
-        auto end = std::chrono::system_clock::now();
-        std::chrono::duration<double> elapsed_seconds = end - start;
-        cerr << "Parse fasta, get kmers, and potential edge kmers for best fit sparse KBF: " << elapsed_seconds.count() << " s" << endl;
-        cerr << "Potential edge kmers: " << edge_kmers.size() << endl;
-        start = std::chrono::system_clock::now();
-        KBFSparse kbfs(K, sparse_kmers, edge_kmers, 1, 10);
-        end = std::chrono::system_clock::now();
-        elapsed_seconds = end - start;
-        cerr << "Build and populate bestfit sparse KBF: " << elapsed_seconds.count() << " s" << endl;
-        queryKmers(query_kmers, read_kmers, kbfs, prefix + "_kbfs_bestfit.txt");
-    }
+    // {
+    //     // Test sparse KBF - best fit kmers
+    //     unordered_set<kmer_t> sparse_kmers;
+    //     unordered_set<kmer_t> edge_kmers;
+    //     cerr << "#### SPARSE KBF - BEST FIT ####" << endl;
+    //     auto start = std::chrono::system_clock::now();
+    //     getBestFitKmersAndEdgeKmers(reads, K, 1, sparse_kmers, edge_kmers);
+    //     auto end = std::chrono::system_clock::now();
+    //     std::chrono::duration<double> elapsed_seconds = end - start;
+    //     cerr << "Parse fasta, get kmers, and potential edge kmers for best fit sparse KBF: " << elapsed_seconds.count() << " s" << endl;
+    //     cerr << "Potential edge kmers: " << edge_kmers.size() << endl;
+    //     start = std::chrono::system_clock::now();
+    //     KBFSparse kbfs(K, sparse_kmers, edge_kmers, 1, 10);
+    //     end = std::chrono::system_clock::now();
+    //     elapsed_seconds = end - start;
+    //     cerr << "Build and populate bestfit sparse KBF: " << elapsed_seconds.count() << " s" << endl;
+    //     queryKmers(query_kmers, read_kmers, kbfs, prefix + "_kbfs_bestfit.txt");
+    // }
 
-    {
-        //sparse KBF - hitting set optimization problem
-        unordered_set<kmer_t> sparse_kmers;
-        unordered_set<kmer_t> edge_kmers;
-        cerr << "#### RELAXED SPARSE KBF - HITTING SET ####" << endl;
-        auto start = std::chrono::system_clock::now();
-        hittingSetKmersAndEdgeKmers(reads, K, sparse_kmers, edge_kmers);
-        auto end = std::chrono::system_clock::now();
-        std::chrono::duration<double> elapsed_seconds = end - start;
-        cerr << "Parse fasta, get kmers, and potential edge kmers for hitting set relaxed sparse KBF: " << elapsed_seconds.count() << " s" << endl;
-        cerr << "Potential edge kmers: " << edge_kmers.size() << endl;
-        start = std::chrono::system_clock::now();
-        KBFSparseRelaxed kbfsr(K, sparse_kmers, edge_kmers, 1, 10);
-        end = std::chrono::system_clock::now();
-        elapsed_seconds = end - start;
-        cerr << "Build and populate hitting set relaxed sparse KBF: " << elapsed_seconds.count() << " s" << endl;
-        queryKmers(query_kmers, read_kmers, kbfsr, prefix + "_kbfs_relaxed_hittingset.txt");
-    }
+    // {
+    //     //sparse KBF - hitting set optimization problem
+    //     unordered_set<kmer_t> sparse_kmers;
+    //     unordered_set<kmer_t> edge_kmers;
+    //     cerr << "#### RELAXED SPARSE KBF - HITTING SET ####" << endl;
+    //     auto start = std::chrono::system_clock::now();
+    //     hittingSetKmersAndEdgeKmers(reads, K, sparse_kmers, edge_kmers);
+    //     auto end = std::chrono::system_clock::now();
+    //     std::chrono::duration<double> elapsed_seconds = end - start;
+    //     cerr << "Parse fasta, get kmers, and potential edge kmers for hitting set relaxed sparse KBF: " << elapsed_seconds.count() << " s" << endl;
+    //     cerr << "Potential edge kmers: " << edge_kmers.size() << endl;
+    //     start = std::chrono::system_clock::now();
+    //     KBFSparseRelaxed kbfsr(K, sparse_kmers, edge_kmers, 1, 10);
+    //     end = std::chrono::system_clock::now();
+    //     elapsed_seconds = end - start;
+    //     cerr << "Build and populate hitting set relaxed sparse KBF: " << elapsed_seconds.count() << " s" << endl;
+    //     queryKmers(query_kmers, read_kmers, kbfsr, prefix + "_kbfs_relaxed_hittingset.txt");
+    // }
 }

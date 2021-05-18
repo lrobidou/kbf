@@ -22,7 +22,7 @@ class BaseBloomFilter {
     const int h;                 // number of hash functions
 
    public:
-    BaseBloomFilter(const int k, const size_t num_elems = 1024 * 1024 * 32, const size_t size_factor = 10, const int num_hashes = 2)
+    BaseBloomFilter(const int k, const size_t num_elems = 1024 * 1024 * 32, const size_t size_factor = 20, const int num_hashes = 1)  // 5% of FP
         : bf_(bf::make_hasher(num_hashes), num_elems * size_factor), k(k), bf_size(num_elems * size_factor), h(num_hashes){};
 
     virtual ~BaseBloomFilter() {  //print out stats in destructor
