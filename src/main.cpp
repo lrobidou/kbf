@@ -1,7 +1,6 @@
 /*************************************************************
 * Copyright (c) David Pellow, Darya Filippova, Carl Kingsford
 *************************************************************/
-
 #include <algorithm>
 #include <cassert>
 #include <chrono>
@@ -12,8 +11,7 @@
 #include <string>
 #include <unordered_set>
 #include <vector>
-
-// libbf
+//
 #include "BaseBloomFilter.hpp"
 #include "KBF1.hpp"
 #include "KBF2.hpp"
