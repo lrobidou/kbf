@@ -22,8 +22,8 @@ class KBF1 : public BaseBloomFilter {
           extend_len(extend_len) {}
 
     //An alternative constructor that populates with kmer set
-    KBF1(const int k, const unordered_set<kmer_t>& kmer_set, const unsigned extend_len = 1)
-        : BaseBloomFilter(k, kmer_set.size()),
+    KBF1(const int k, const unordered_set<kmer_t>& kmer_set, const size_t size_factor = 20, const unsigned extend_len = 1)
+        : BaseBloomFilter(k, kmer_set.size(), size_factor),
           extend_len(extend_len) {
         populate(kmer_set);
     }
