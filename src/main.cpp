@@ -147,7 +147,8 @@ int main(int argc, char* argv[]) {
     cerr << "Generating test kmers..." << endl;
     // vector<kmer_t> query_kmers = sample_kmers(read_kmers, query_set_size, K, TP);
     vector<kmer_t> query_kmers = getKmersVect(parseFasta(queryFilename), K);
-    const std::vector<size_t> size_factors = {10, 20, 30};
+    // const std::vector<size_t> size_factors = {7, 8, 9, 10};  //1 hash function: []
+    const std::vector<size_t> size_factors = {19, 20, 21};  //2 hash functions: []
     for (auto size_factor : size_factors) {
         {
             prefix = "test_" + std::to_string(size_factor);
