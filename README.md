@@ -22,8 +22,6 @@ python3 kbf2launcher.py
 python3 bfAndKbfAnalyser.py
 ```
 
-### for bloom filter and 1kbf:
-
 ================================================
 
 
