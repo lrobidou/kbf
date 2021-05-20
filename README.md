@@ -15,8 +15,9 @@ rm results/exe2kbf_*  # same
 python3 kbf2launcher.py
 ```
 ### for the others filters:
-# be sure to run this AFTER 2kbf
+
 ```
+# be sure to run this AFTER 2kbf
 ./build/thirdparty/libbf/bin/kbf ../../qtf/data/ecoli1.fasta 31 ../../qtf/data/ecoli2.fasta "results/test" > results/exeKbf.json
 python3 bfAndKbfAnalyser.py
 ```
