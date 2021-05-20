@@ -23,11 +23,13 @@ set(CMAKE_CXX_FLAGS_RELEASE "-O3")
 
 # include thridparty directories
 include_directories(SYSTEM thirdparty/libbf)
-
+include_directories(SYSTEM thirdparty/boost/install/include)
+link_directories(thirdparty/bf/build/lib)
 # add libbf
 add_subdirectory(thirdparty/libbf)
 
 add_executable(kbf src/main.cpp)
+
 add_executable(kbf2only src/main2kbf.cpp)
 target_link_libraries(kbf libbf_static)
 target_link_libraries(kbf2only libbf_static)
