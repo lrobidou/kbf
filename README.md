@@ -4,6 +4,25 @@ Indeed, the dependecies of kbf have changed a bit and thus it not not so easy to
 Moreover, it it seemed to lack a way to index a fasta/fastq file and compare it to another file, making it hard to compare other tools to it. This is now allowed on this version of kbf.
 
 Youc can check the changes made since the fork here: https://github.com/lrobidou/kbf/compare/start...master
+
+## Execute this version:
+
+### for 2kbf:
+```
+rm results/spaceOf2Kbf.txt  # if any from the previous execution
+rm results/exe2kbf_*  # same
+./build.sh
+python3 kbf2launcher.py
+```
+### for the others filters:
+# be sure to run this AFTER 2kbf
+```
+./build/thirdparty/libbf/bin/kbf ../../qtf/data/ecoli1.fasta 31 ../../qtf/data/ecoli2.fasta "results/test" > results/exeKbf.json
+python3 bfAndKbfAnalyser.py
+```
+
+### for bloom filter and 1kbf:
+
 ================================================
 
 
