@@ -15,14 +15,21 @@ This execution will produce 9 files. There are 3 loops over different size facto
 
 It is not possible to pass directly the expected FPR for the filter. Instead, you must pass the size factor.
 By noting:
+
     - m the number ofbits used for the filter 
+    
     - n the number of element added in the filter
+    
 The size factor would be m/n.
 
 Since the size factor is an integer, it is not possible to select some specific FPR for the filter. For instance, if:
+
     a size factor of 19 gives you a FPR of 5.12%
+    
     and
+    
     a size factor of 20 gives you a FPR of 4.8%
+    
 there is no way to have a FPR of 5% (since the size factor would have to be between 19 and 20, but htis is not possible as it is an integer).
 
 ## Compute the result
@@ -59,7 +66,10 @@ Each inner object represent a loop with a size factor given as a key. For instan
     },
 ```
 means that with a size factor of 19 (i.e. by allocating (19 * number_of_elements) bits for the filter):
+
     - the classic bloom filter have a FPR of 5.12%
+    
     - kbf1 gets a FPR of 1.83%
+    
     - bkf2 gets a FPR of 0.2%
 
