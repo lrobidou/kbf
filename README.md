@@ -1,8 +1,9 @@
 # What is this repository ?
 This repository contains a slightly modified version of https://github.com/Kingsford-Group/kbf.
 Indeed, the dependecies of kbf have changed a bit and thus it not not so easy to use anymore.
-Moreover, it it seemed to lack a way to index a fasta/fastq file and compare it to another file, making it hard to compare other tools to it.
+Moreover, it it seemed to lack a way to index a fasta/fastq file and compare it to another file, making it hard to compare other tools to it. This is now allowed on this version of kbf.
 
+Youc can check the changes made since the fork here: https://github.com/lrobidou/kbf/compare/start...master
 ================================================
 
 
@@ -38,11 +39,11 @@ Boost: http://www.boost.org/doc/libs/1_59_0/more/getting_started/unix-variants.h
 
 ```
 git clone --recursive https://github.com/lrobidou/kbf
-cd thirdparty/libbf
-./configure
-make
-cd -
-g++ -std=c++11 -O3 -o kbf cpp-src/main.cpp -Ithirdparty/libbf -Lthrirparty/bf/build/lib -lbf -Wl,-Rthrirparty/bf/build/lib
+cd kbf
+chmod +x build.sh
+./build.sh
+
+./build/thirdparty/libbf/bin/kbf /groups/genscale/NGSdatasets/metagenomics/hmp/SRS014107_SRS016349_fasta/SRS014107.denovo_duplicates_marked.trimmed.1.fasta 31 /groups/genscale/NGSdatasets/metagenomics/hmp/SRS014107_SRS016349_fasta/SRS016349.denovo_duplicates_marked.trimmed.1.fasta
 ```
 
 #### *k*BF Variants
@@ -56,13 +57,3 @@ The C++ source files are in the directory `cpp-src`
 * KBFSparse.hpp -- sparse Bloom filter with a strict `contains` function that uses 1/2 of space to store the same set of kmers and guarantees the same FPR as a classic Bloom filter
 
 * KBFSparseRelaxed.hpp -- same as above, but `contains` is relaxed
-
-#### Example usage
-
-```
-string kmer = "ACGTACGTACGTACGTACGT";
-kmer_t binary_kmer = mer_string_to_binary(kmer, 20);
-KBF1 kbf(20 /* kmer length */, read_kmers /* collection of kmers to store */);
-bool in_set = kbf.contains(binary_kmer);
-cerr << "Kmer " << kmer << ": " << in_set << endl;
-```
