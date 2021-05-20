@@ -93,10 +93,10 @@ vector<kmer_t> sample_kmers(unordered_set<kmer_t>& kmer_set, int const set_size,
 // Usage:
 //./kbf <input fasta> <query fasta> <k> [outfile prefix = 'test'] [# queries = 1000000] [use all TP = false]
 int main(int argc, char* argv[]) {
-    if (argc < 4) {
+    if (argc < 5) {
         cerr << "\tMissing required arguments." << endl;
         cerr << "\tUsage:" << endl;
-        cerr << "\tkbf <reads.fa> <k> <query.fa> [outfile prefix = 'test'] [# queries = 1M] [use all TP = 'false']" << endl;
+        cerr << "\tkbf <reads.fa> <k> <query.fa> <size_factor> [outfile prefix = 'test'] [# queries = 1M] [use all TP = 'false']" << endl;
         exit(1);
     }
 
@@ -105,87 +105,57 @@ int main(int argc, char* argv[]) {
     unsigned long query_set_size = 1000000;
     string base_prefix = "test";
     string queryFilename = "";
+    size_t size_factor = 0;
     bool TP = false;
     if (argc > 3) {
         queryFilename = argv[3];
     }
     if (argc > 4) {
-        base_prefix = argv[4];
+        size_factor = stoi(argv[4]);
     }
     if (argc > 5) {
-        query_set_size = stoi(argv[5]);
+        base_prefix = argv[5];
     }
     if (argc > 6) {
-        string TP_string = argv[6];
+        query_set_size = stoi(argv[6]);
+    }
+    if (argc > 7) {
+        string TP_string = argv[7];
         if (TP_string.compare("true") == 0)
             TP = true;
         else
             assert(TP_string.compare("false") == 0);
     }
     unordered_set<kmer_t> read_kmers;
-
-    // parse input reads -- will build a kmer set from that
-    // cerr << "Parsing input fasta " << input_fasta << endl;
-    // auto start = std::chrono::system_clock::now();
     vector<string> reads = parseFasta(input_fasta);
-    // auto end = std::chrono::system_clock::now();
-    // std::chrono::duration<double> elapsed_seconds = end - start;
-    // cerr << "Parsing: " << elapsed_seconds.count() << " s" << endl;
-    // cerr << "Getting kmers... " << endl;
-    // start = std::chrono::system_clock::now();
-    read_kmers = getKmers(reads, K);
-    // end = std::chrono::system_clock::now();
-    // elapsed_seconds = end - start;
-    // cerr << "Input kmers: " << read_kmers.size() << endl;
-    // cerr << "Getting kmers: " << elapsed_seconds.count() << " s" << endl;
 
-    // parse test reads and count the test kmers
-    // cerr << "Generating test kmers..." << endl;
-    // vector<kmer_t> query_kmers = sample_kmers(read_kmers, query_set_size, K, TP);
     vector<kmer_t> query_kmers = getKmersVect(parseFasta(queryFilename), K);
-    // const std::vector<size_t> size_factors = {7, 8, 9, 10};  //1 hash function: []
-    const std::vector<size_t> size_factors = {3, 5, 7, 9, 15, 18, 21, 24};
-    std::cout << "{" << std::endl;
 
-    for (auto size_factor : size_factors) {
-        std::cout << "    \"" << size_factor << "\": {" << std::endl;
-        std::string prefix = base_prefix + "_" + std::to_string(size_factor);
-        {
-            // Test the classic bloom filter
-            // cerr << "#### CLASSIC BLOOM FILTER ####" << endl;
-            auto start = std::chrono::high_resolution_clock::now();
-            BaseBloomFilter b(K, read_kmers.size(), size_factor);
-            b.populate(read_kmers);
-            auto end = std::chrono::high_resolution_clock::now();
+    ofstream f_out("results/exe2kbf_" + std::to_string(size_factor) + ".json");
+    f_out << "{" << std::endl;
 
-            cout << "        \"classic_index\": " << std::chrono::duration_cast<std::chrono::milliseconds>(end - start).count() << "," << endl;
-            start = std::chrono::high_resolution_clock::now();
-            cout << "        \"number_of_elements\": " << read_kmers.size() << "," << std::endl;
-            cout << "        \"size\": " << read_kmers.size() * size_factor << "," << std::endl;
-            queryKmers(query_kmers, read_kmers, b, prefix + "_classic.txt");
-            end = std::chrono::high_resolution_clock::now();
-            cout << "        \"classic_query\": " << std::chrono::duration_cast<std::chrono::milliseconds>(end - start).count() << "," << endl;
-        }
+    f_out << "    \"" << size_factor << "\": {" << std::endl;
+    std::string prefix = base_prefix + "_" + std::to_string(size_factor);
 
-        {
-            // Test KBF1
-            // cerr << "#### KBF1 ####" << endl;
-            auto start = std::chrono::high_resolution_clock::now();
-            KBF1 kbf1(K, read_kmers, size_factor, 1);
-            auto end = std::chrono::high_resolution_clock::now();
-            cout << "        \"kbf1_index\": " << std::chrono::duration_cast<std::chrono::milliseconds>(end - start).count() << "," << endl;
-            start = std::chrono::high_resolution_clock::now();
-            queryKmers(query_kmers, read_kmers, kbf1, prefix + "_kbf1.txt");
-            end = std::chrono::high_resolution_clock::now();
-            cout << "        \"kbf1_query\": " << std::chrono::duration_cast<std::chrono::milliseconds>(end - start).count() << "" << endl;
-        }
+    {
+        unordered_set<kmer_t> edge_kmers;
+        read_kmers.clear();
+        auto start = std::chrono::high_resolution_clock::now();
+        getKmersAndEdgeKmers(reads, K, 1, read_kmers, edge_kmers);
+        f_out << "        \"number_of_elements\": " << read_kmers.size() << "," << std::endl;
 
-        std::cout << "    }";
-        if (size_factor < 24) {
-            cout << ",";
-        }
-
-        cout << std::endl;
+        KBF2 kbf2(K, read_kmers, edge_kmers, 1, size_factor);
+        auto end = std::chrono::high_resolution_clock::now();
+        f_out << "        \"kbf2_index\": " << std::chrono::duration_cast<std::chrono::milliseconds>(end - start).count() << "," << endl;
+        // cerr << "Potential edge kmers: " << edge_kmers.size() << endl;Z
+        start = std::chrono::high_resolution_clock::now();
+        queryKmers(query_kmers, read_kmers, kbf2, prefix + "_kbf2.txt");
+        end = std::chrono::high_resolution_clock::now();
+        f_out << "        \"kbf2_query\": " << std::chrono::duration_cast<std::chrono::milliseconds>(end - start).count() << endl;
     }
-    cout << "}";
+    f_out << "    }";
+    f_out << std::endl;
+
+    f_out << "}";
+    f_out.close();
 }

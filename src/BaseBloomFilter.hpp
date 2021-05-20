@@ -26,9 +26,9 @@ class BaseBloomFilter {
         : bf_(bf::make_hasher(num_hashes), num_elems * size_factor), k(k), bf_size(num_elems * size_factor), h(num_hashes){};
 
     virtual ~BaseBloomFilter() {  //print out stats in destructor
-        cerr << "# kmers inserted: " << num_inserted << endl;
-        cerr << "BF size: " << bf_size << endl;
-        cerr << "# hashes: " << h << endl;
+        // cerr << "# kmers inserted: " << num_inserted << endl;
+        // cerr << "BF size: " << bf_size << endl;
+        // cerr << "# hashes: " << h << endl;
     }
 
     void add(const kmer_t& kmer) {

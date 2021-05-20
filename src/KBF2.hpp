@@ -23,16 +23,16 @@ class KBF2 : public BaseBloomFilter {
     KBF2(const int k, unordered_set<kmer_t>& kmer_set, unordered_set<kmer_t>& edge_set, const unsigned extend_len = 1, const size_t size_factor = 20) : BaseBloomFilter(k, kmer_set.size(), size_factor), extend_len(extend_len) {
         populate(kmer_set);
         getEdges(edge_set);
-        cerr << "Edges: " << edge_kmers.size() << endl;
+        // cerr << "Edges: " << edge_kmers.size() << endl;
         extended_check = 0;
         edge_check = 0;
         edge_pass = 0;
     }
 
     ~KBF2() {
-        cerr << "# of extended checks: " << extended_check << endl;
-        cerr << "# of edge checks: " << edge_check << endl;
-        cerr << "# that pass: " << edge_pass << endl;
+        // cerr << "# of extended checks: " << extended_check << endl;
+        // cerr << "# of edge checks: " << edge_check << endl;
+        // cerr << "# that pass: " << edge_pass << endl;
     }
 
     // any read edge kmer that is not in the filter needs

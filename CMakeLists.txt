@@ -28,4 +28,6 @@ include_directories(SYSTEM thirdparty/libbf)
 add_subdirectory(thirdparty/libbf)
 
 add_executable(kbf src/main.cpp)
+add_executable(kbf2only src/main2kbf.cpp)
 target_link_libraries(kbf libbf_static)
+target_link_libraries(kbf2only libbf_static)

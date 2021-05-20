@@ -29,7 +29,7 @@ class KBF1 : public BaseBloomFilter {
     }
 
     ~KBF1() {
-        cerr << "Extended checks: " << extended_check << endl;
+        // cerr << "Extended checks: " << extended_check << endl;
     }
 
     bool contains(const kmer_t& A) {
