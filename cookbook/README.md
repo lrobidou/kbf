@@ -1,14 +1,16 @@
 # How to reproduce the results of kbf
 
 ## install kbf
+```
 git clone --recursive https://github.com/lrobidou/kbf
 cd kbf
 chmod +x build.sh
 ./build.sh
-
+```
 ## Execute kbf.
+```
 ./build/thirdparty/libbf/bin/kbf /groups/genscale/NGSdatasets/metagenomics/hmp/SRS014107_SRS016349_fasta/SRS014107.denovo_duplicates_marked.trimmed.1.fasta 31 /groups/genscale/NGSdatasets/metagenomics/hmp/SRS014107_SRS016349_fasta/SRS016349.denovo_duplicates_marked.trimmed.1.fasta
-
+```
 This execution will produce 9 files. There are 3 loops over different size factors, and for each siez factor, there are three files (for the classic filter, the kbf1 filter and the kbf2 filter).
 
 It is not possible to pass directly the expected FPR for the filter. Instead, you must pass the size factor.
@@ -29,6 +31,7 @@ After the exectution, you can compute the false positive rate from those file us
 python3 loopanalyser.py > kbf.json
 
 The file kbf.json contains a json file, looking like:
+```
 {
     "19": {
         "classic": 5.127479316985625,
@@ -46,14 +49,15 @@ The file kbf.json contains a json file, looking like:
         "kbf2": 0.15819432477859857
     }
 }
-
+```
 Each inner object represent a loop with a size factor given as a key. For instance:
+```
     "19": {
         "classic": 5.127479316985625,
         "kbf1": 1.8254322167008583,
         "kbf2": 0.19984716721756995
     },
-
+```
 means that with a size factor of 19 (i.e. by allocating (19 * number_of_elements) bits for the filter):
     - the classic bloom filter have a FPR of 5.12%
     - kbf1 gets a FPR of 1.83%
