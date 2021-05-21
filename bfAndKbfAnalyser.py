@@ -15,25 +15,29 @@ def print_size_fpr_and_time():
     print("size fpr time_index time_query")
     for size_factor in dico:
         fpr_filename = "results/test_" + size_factor + "_" + "classic.txt"
-
-        print(
-            dico[size_factor]["size"],
-            analyse.analyser(fpr_filename)[1],
-            dico[size_factor]["classic_index"],
-            dico[size_factor]["classic_query"],
-        )
+        try:
+            print(
+                dico[size_factor]["size"],
+                analyse.analyser(fpr_filename)[1],
+                dico[size_factor]["classic_index"],
+                dico[size_factor]["classic_query"],
+            )
+        except ZeroDivisionError:
+            pass
 
     print("For kBF1")
     print("size fpr time_index time_query")
     for size_factor in dico:
         fpr_filename = "results/test_" + size_factor + "_" + "classic.txt"
-
-        print(
-            dico[size_factor]["size"],
-            analyse.analyser(fpr_filename)[1],
-            dico[size_factor]["kbf1_index"],
-            dico[size_factor]["kbf1_query"],
-        )
+        try:
+            print(
+                dico[size_factor]["size"],
+                analyse.analyser(fpr_filename)[1],
+                dico[size_factor]["kbf1_index"],
+                dico[size_factor]["kbf1_query"],
+            )
+        except ZeroDivisionError:
+            pass
 
     print("For kBF2")
     print("size fpr time_index time_query")
