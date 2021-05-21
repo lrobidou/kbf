@@ -4,6 +4,7 @@ import analyse
 import json
 
 
+
 def print_size_fpr_and_time():
 
     print("size_factor", "classic", "kbf1", "time")
@@ -107,7 +108,6 @@ def main():
     print_size_fpr_and_time()
     # print("\n\n\n\n\n")
     # print_time()
-
 
 if __name__ == "__main__":
     main()

@@ -4,10 +4,11 @@ import json
 size_factors = [3, 5, 7, 9, 15, 18, 21, 24]
 
 
+
 def exe_2kbf():
     for size_factor in size_factors:
         cmd = (
-            "./memused.sh ./build/thirdparty/libbf/bin/kbf2only ../../qtf/data/ecoli1.fasta 31 ../../qtf/data/ecoli2.fasta "
+            "./memused.sh ./build/thirdparty/libbf/bin/kbf2only /groups/genscale/NGSdatasets/metagenomics/hmp/SRS014107_SRS016349_fasta/SRS014107.denovo_duplicates_marked.trimmed.1.fasta 31 /groups/genscale/NGSdatasets/metagenomics/hmp/SRS014107_SRS016349_fasta/SRS016349.denovo_duplicates_marked.trimmed.1.fasta "
             + str(size_factor)
             + ' "results/test" >> results/spaceOf2Kbf.txt'
         )
