@@ -7,13 +7,24 @@ cd kbf
 chmod +x build.sh
 ./build.sh
 ```
-## Execute kbf.
+## Execute kbf for kbf2.
 ```
-./build/thirdparty/libbf/bin/kbf /groups/genscale/NGSdatasets/metagenomics/hmp/SRS014107_SRS016349_fasta/SRS014107.denovo_duplicates_marked.trimmed.1.fasta 31 /groups/genscale/NGSdatasets/metagenomics/hmp/SRS014107_SRS016349_fasta/SRS016349.denovo_duplicates_marked.trimmed.1.fasta
+rm results/spaceOf2Kbf.txt  # if any from the previous execution
+rm results/exe2kbf_*  # same
+./build.sh
+python3 kbf2launcher.py
 ```
-This execution will produce 9 files. There are 3 loops over different size factors, and for each siez factor, there are three files (for the classic filter, the kbf1 filter and the kbf2 filter).
+### for the others filters:
 
-It is not possible to pass directly the expected FPR for the filter. Instead, you must pass the size factor.
+```
+# be sure to run this AFTER kbf2
+./build/thirdparty/libbf/bin/kbf ../../qtf/data/ecoli1.fasta 31 ../../qtf/data/ecoli2.fasta "results/test" > results/exeKbf.json
+python3 bfAndKbfAnalyser.py
+```
+
+Caution: this will produce a huge amount of data on your disk if the fast you use itself is huge. If you do noy have enough space, kbf won't be able to write ist file to your disk, leading to a crash of the scrpt ```bfAndKbfAnalyser.py``` (see below)
+
+It is not possible to pass directly the expected FPR for the filter. One you must use a size factor.
 By noting:
 
     - m the number ofbits used for the filter 
@@ -33,43 +44,7 @@ Since the size factor is an integer, it is not possible to select some specific 
 there is no way to have a FPR of 5% (since the size factor would have to be between 19 and 20, but htis is not possible as it is an integer).
 
 ## Compute the result
-After the exectution, you can compute the false positive rate from those file usint the python script:
-
-python3 loopanalyser.py > kbf.json
-
-The file kbf.json contains a json file, looking like:
+After the exectution, you can compute the false positive rate from the output of kbf using the python script:
 ```
-{
-    "19": {
-        "classic": 5.127479316985625,
-        "kbf1": 1.8254322167008583,
-        "kbf2": 0.19984716721756995
-    },
-    "20": {
-        "classic": 4.889611319887777,
-        "kbf1": 1.6867815785476044,
-        "kbf2": 0.17840099782338675
-    },
-    "21": {
-        "classic": 4.6444216466795485,
-        "kbf1": 1.5491686582682622,
-        "kbf2": 0.15819432477859857
-    }
-}
+python3 bfAndKbfAnalyser.py
 ```
-Each inner object represent a loop with a size factor given as a key. For instance:
-```
-    "19": {
-        "classic": 5.127479316985625,
-        "kbf1": 1.8254322167008583,
-        "kbf2": 0.19984716721756995
-    },
-```
-means that with a size factor of 19 (i.e. by allocating (19 * number_of_elements) bits for the filter):
-
-    - the classic bloom filter have a FPR of 5.12%
-    
-    - kbf1 gets a FPR of 1.83%
-    
-    - bkf2 gets a FPR of 0.2%
-
