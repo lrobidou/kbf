@@ -28,7 +28,7 @@ def print_size_fpr_and_time():
     print("For kBF1")
     print("size fpr time_index time_query")
     for size_factor in dico:
-        fpr_filename = "results/test_" + size_factor + "_" + "classic.txt"
+        fpr_filename = "results/test_" + size_factor + "_" + "kbf1.txt"
         try:
             print(
                 dico[size_factor]["size"],
