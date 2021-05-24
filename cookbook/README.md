@@ -47,3 +47,15 @@ After the exectution, you can compute the false positive rate from the output of
 ```
 python3 bfAndKbfAnalyser.py
 ```
+
+## Get a better time estimation
+
+Because kbf writes a lot on the disk, this can drastically change the time taken to perform a query. On commit d2296e08d11db8c3c7efb3a4012413569a408efb, kbf do not write on disk anymore, but since we used those files to get the FPR, the FPR is not available anymore at this commit. If using this commit, do:
+```
+python3 "bfAndKbfAnalyser_time only.py"
+```
+rather than:
+```
+python3 bfAndKbfAnalyser.py
+```
+Because bfAndKbfAnalyser will search files that do not exist anymore.
