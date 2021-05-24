@@ -1,9 +1,10 @@
 # How to reproduce the results of kbf
 
-## install kbf
+## install kbf at commit 9ea1cfceb3e5ce603df6e6b2def5b4768e4366d1
 ```
 git clone --recursive https://github.com/lrobidou/kbf
 cd kbf
+git checkout 9ea1cfceb3e5ce603df6e6b2def5b4768e4366d1
 chmod +x build.sh
 ./build.sh
 ```
