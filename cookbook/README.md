@@ -9,8 +9,7 @@ chmod +x build.sh
 ```
 ## Execute kbf for kbf2.
 ```
-rm results/spaceOf2Kbf.txt  # if any from the previous execution
-rm results/exe2kbf_*  # same
+rm results/*  # if data left from the previous execution
 ./build.sh
 python3 kbf2launcher.py
 ```
