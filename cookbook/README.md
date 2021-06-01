@@ -8,13 +8,13 @@ git checkout 9ea1cfceb3e5ce603df6e6b2def5b4768e4366d1
 chmod +x build.sh
 ./build.sh
 ```
-## Execute kbf2.
+## Execute 2-kbf.
 ```
 rm results/*  # if data left from the previous execution
 ./build.sh
 python3 kbf2launcher.py
 ```
-### for the others filters:
+### for the others filters (1-kbf and Bloom filter):
 
 ```
 # be sure to run this AFTER kbf2
