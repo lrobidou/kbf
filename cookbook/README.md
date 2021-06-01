@@ -8,7 +8,7 @@ git checkout 9ea1cfceb3e5ce603df6e6b2def5b4768e4366d1
 chmod +x build.sh
 ./build.sh
 ```
-## Execute kbf for kbf2.
+## Execute kbf2.
 ```
 rm results/*  # if data left from the previous execution
 ./build.sh
