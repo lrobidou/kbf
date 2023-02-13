@@ -22,6 +22,7 @@ def lire(filemane):
 
 def analyser(filename):
     TP, TN, FP, FN = lire(filename)
+    # print(TP, TN, FP, FN)
     return filename, (FP / (FP + TN)) * 100
 
 

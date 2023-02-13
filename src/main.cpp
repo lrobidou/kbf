@@ -39,11 +39,11 @@ void queryKmers(vector<kmer_t>& test_kmers, unordered_set<kmer_t>& true_kmers, B
     // end the timing here
 
     // write states and true answers to file
-    // ofstream f_out(out_fname);
-    // f_out << "kmer\tBF_state\ttrue_state" << endl;
-    // for (int i = 0; i < states.size(); i++)
-    //     f_out << test_kmers[i] << "\t" << states[i] << "\t" << (true_kmers.find(test_kmers[i]) != true_kmers.end()) << endl;
-    // f_out.close();
+    ofstream f_out(out_fname);
+    f_out << "kmer\tBF_state\ttrue_state" << endl;
+    for (int i = 0; i < states.size(); i++)
+        f_out << test_kmers[i] << "\t" << states[i] << "\t" << (true_kmers.find(test_kmers[i]) != true_kmers.end()) << endl;
+    f_out.close();
 }
 
 ////////////////////////////////////////////////////////////////////////////////
@@ -144,7 +144,7 @@ int main(int argc, char* argv[]) {
     // vector<kmer_t> query_kmers = sample_kmers(read_kmers, query_set_size, K, TP);
     vector<kmer_t> query_kmers = getKmersVect(parseFasta(queryFilename), K);
     // const std::vector<size_t> size_factors = {7, 8, 9, 10};  //1 hash function: []
-    const std::vector<size_t> size_factors = {3, 5, 7, 9, 15, 18, 21, 24};
+    const std::vector<size_t> size_factors = {26, 28, 30, 32, 35, 40};
     std::cout << "{" << std::endl;
 
     for (auto size_factor : size_factors) {
@@ -181,7 +181,7 @@ int main(int argc, char* argv[]) {
         }
 
         std::cout << "    }";
-        if (size_factor < 24) {
+        if (size_factor < 40) {
             cout << ",";
         }
 

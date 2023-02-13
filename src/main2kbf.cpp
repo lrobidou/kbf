@@ -39,11 +39,11 @@ void queryKmers(vector<kmer_t>& test_kmers, unordered_set<kmer_t>& true_kmers, B
     // end the timing here
 
     // write states and true answers to file
-    // ofstream f_out(out_fname);
-    // f_out << "kmer\tBF_state\ttrue_state" << endl;
-    // for (int i = 0; i < states.size(); i++)
-    //     f_out << test_kmers[i] << "\t" << states[i] << "\t" << (true_kmers.find(test_kmers[i]) != true_kmers.end()) << endl;
-    // f_out.close();
+    ofstream f_out(out_fname);
+    f_out << "kmer\tBF_state\ttrue_state" << endl;
+    for (int i = 0; i < states.size(); i++)
+        f_out << test_kmers[i] << "\t" << states[i] << "\t" << (true_kmers.find(test_kmers[i]) != true_kmers.end()) << endl;
+    f_out.close();
 }
 
 ////////////////////////////////////////////////////////////////////////////////

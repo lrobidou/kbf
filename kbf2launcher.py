@@ -1,7 +1,7 @@
 import os
 import json
 
-size_factors = [3, 5, 7, 9, 15, 18, 21, 24]
+size_factors = [26, 28, 30, 32, 35, 40]
 
 
 
